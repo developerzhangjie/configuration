@@ -1,0 +1,18 @@
+1.安装chrome
+wget -q -O - https://raw.githubusercontent.com/longhr/ubuntu1604hub/master/linux_signing_key.pub | sudo apt-key add
+sudo sh -c 'echo "deb [ arch=amd64 ] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+sudo apt-get update
+sudo apt-get install google-chrome-stable
+
+2.安装lantern
+https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb
+
+3.安装搜狗输入法
+http://cdn2.ime.sogou.com/dl/index/1475147394/sogoupinyin_2.1.0.0082_amd64.deb?st=aCmFz2NR06EwCsQxZU1VBQ&e=1490682108&fn=sogoupinyin_2.1.0.0082_amd64.deb
+
+3.删除一些不需要的软件
+sudo apt-get remove libreoffice-common
+sudo apt-get remove unity-webapps-common	
+sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku landscape-client-ui-install
+sudo apt-get remove onboard deja-dup
+
