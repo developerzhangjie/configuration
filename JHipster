@@ -1,0 +1,14 @@
+//how to install nodejs 6.10.2 on ubuntu 16.04
+sudo apt-get update
+sudo apt-get install build-essential libssl-dev
+curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh -o install_nvm.sh
+chmod u+x install_nvm.sh
+zsh install_nvm.sh
+source ~/.profile
+source ~/.nvm/nvm.sh
+nvm install 6.10.2
+
+//how to start JHispter
+1.  yo jhipster
+	if failed,execute the commond :yarn install
+2.	./gradlew
