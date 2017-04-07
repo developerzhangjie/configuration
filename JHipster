@@ -1,4 +1,5 @@
 //how to install nodejs 6.10.2 on ubuntu 16.04
+
 sudo apt-get update
 sudo apt-get install build-essential libssl-dev
 curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh -o install_nvm.sh
@@ -8,7 +9,13 @@ source ~/.profile
 source ~/.nvm/nvm.sh
 nvm install 6.10.2
 
+
+
 //how to start JHispter
-1.  yo jhipster
-	if failed,execute the commond :yarn install
-2.	./gradlew
+
+1.创建一个数据库
+2.  yo jhipster
+	if failed,execute the command :yarn install，在执行该命令之前，需要执行
+	cp phantomjs-2.1.1-linux-x86_64.tar.bz2 /tmp/phantomjs，如果没有/tmp/phantomjs，则手动创建。
+3.修改src/main/resources/config/application-dev.yml中的数据库密码。
+4.  ./gradlew
