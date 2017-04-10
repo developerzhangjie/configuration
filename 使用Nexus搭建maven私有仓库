@@ -1,0 +1,15 @@
+step1：
+  download Nexus Repository OSS 3.2.1-01 from 
+    https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.2.1-01-unix.tar.gz
+
+step2：
+    tar -zxvf nexus-3.2.1-01-unix.tar.gz
+    
+step3:
+  cd /home/devel/software/nexus/nexus-3.2.1-01/bin
+  sudo ./nexus run
+  ./nexus run
+  if the step succeed,it will appear the command：Started Sonatype Nexus OSS 3.2.1-01
+  
+
+    
