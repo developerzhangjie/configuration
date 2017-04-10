@@ -36,4 +36,19 @@ sudo apt-get install libc6-i386，安装WPS之前必须安装这个包;
 sudo apt-get install lib32ncurses5 lib32z1 在16.04下安装这俩个包;
 sudo dpkg -i wps-office_10.1.0.5630~a20p1_amd64.deb 输入该命令安装成功;
 
+8.how to install nodejs 6.10.2 on ubuntu 16.04
+sudo apt-get update
+sudo apt-get install build-essential libssl-dev
+curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh -o install_nvm.sh
+chmod u+x install_nvm.sh
+zsh install_nvm.sh
+source ~/.profile
+source ~/.nvm/nvm.sh
+nvm install 6.10.2
+
+ //how to start JHispter
+  1).  yo jhipster
+    if failed,execute the commond :yarn install
+  2).	./gradlew
+
 
