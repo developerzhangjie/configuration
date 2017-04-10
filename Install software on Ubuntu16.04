@@ -17,7 +17,6 @@ sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnom
 sudo apt-get remove onboard deja-dup
 sudo apt autoremove
 
-
 4.安装zsh与oh-my-zsh
 sudo apt-get install zsh git wget
 wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
@@ -27,6 +26,14 @@ reboot
 5.安装ssh服务端
 sudo apt-get install openssh-server
 
-
 6.安装docker
 docker pull registry.cn-hangzhou.aliyuncs.com/qida/oracle-xe-11g
+
+7.安装WPS
+sudo chmod 777 wps-office_10.1.0.5630~a20p1_amd64.deb，
+sudo apt-get update 
+sudo apt-get install libc6-i386，安装WPS之前必须安装这个包;
+sudo apt-get install lib32ncurses5 lib32z1 在16.04下安装这俩个包;
+sudo dpkg -i wps-office_10.1.0.5630~a20p1_amd64.deb 输入该命令安装成功;
+
+
