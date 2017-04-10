@@ -1,0 +1,258 @@
+Chapter	1.	Getting	Started	with Spring Boot
+
+使用Spring Boot模板和启动器
+创建简单的应用
+使用Gradle启动应用程序
+使用command-line	runners
+建立数据库连接
+建立数据仓库服务
+计划执行者
+
+1.1 Using	a	Spring	Boot	template	and	starters
+
+@SpringBootApplication是由以下3个注解构成：
+@Configuration	告诉spring被注解的class包含了spring的配置
+@ComponentScan 在指定的包下扫描加了@Configuration，@Controller或者加了其他注解的类
+@EnableAutoConfiguration	是spring boot的注解，导入了EnableAutoConfigurationImportSelector和AutoConfigurationPackages.Registrar这两个类，能够有效的指挥spring有效的自动配置
+conditional beans，依赖于	classpath中可用的class
+
+Command	line runners非常适合去执行只运行一次的程序。它提供的 public void run(String... args) 在程序启动后只会被Spring Boot调用一次而且会首先被调用，利用这个特性，我们可以在程序启动的时候加入一些依赖beans，这些beans的的初始化过程可、可以放在run（）方法中。需要注意的是，在run（）方法运行时，遇到任何异都会使得程序终止，所以需要加入try/catch来处理异常。
+
+CommandLineRunner借口接口能够被Spring Boot扫描它的所有实现，并且执行每个实例的run（）方法。有个默认顺序，就是按照实例化的顺序去执行。如果想要指定执行顺序，有两种方法，一是在每个实现CommandLineRunner的类前加上一个注解：@Order（n）n是整数，代表了执行顺序，越小执行越早。另一种方法就是让每个实现CommandLineRunner的类再实现Orered这个接口，并且重写getOrder()方法，返回一个整数，也就是执行顺序。
+
+
+1.2 Setting	up	a	database	connection
+
+		
+当database在classpath中被扫描到，并且dataSource的bean依赖在代码中声明，Spring Boot会自动的为你创建一个database出来。
+H2是在内存中创建的数据库，也可以通过配置文件能够早文件中存储数据，不至于程序重启之后清空数据。
+
+在application.properties中添加spring.jpa.hibernate.ddl-auto=create-drop能够自动创建schema。但是数据库还是需要手动创建。
+
+
+
+1.3 Setting	up	a	data	repository	service
+
+直接连接到数据库，执行sql语句操作数据可，简单直接，但并不是最方便的方式。将其映射成一组域对象进行操作，这种方式更好。很多框架的出现就是为了帮助我们将表中的数据映射成对象，最有名的框架是Hibernate.
+
+
+再使用@JsonIgnore注解的时候，导包总是出错，com.fasterxml.jackson.annotation.JsonIgnore 这是正确的包，可是不存在。后来手动在build.gradle中添加compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0.pr2' 才成功。后来发现，即使不使用@JsonIgnore也没问题，而且使用H2和mysql都没问题。
+
+通过使用以下注解，就可以不用写sql语句进行操作数据库。
+
+@Entity	 加上这个注解的类能够被映射到数据表中。数据表的名字能够从类名中获取，如果有需要的话，可以自行配置。我们需要注意到，每个实体类中必须有一个protected的默认无参构造器，这个是自动实例化和 Hibernate 	interaction所必须的。
+
+@Repository  加在接口上面。表明该接口为我们提供了对数据库中的数据进行访问和操作。这也是Spring的一种表现，在组件扫描期间，这个实例能够被当做bean创建，并且在该应用程序中能够被注入到其他beans中。
+
+CrudRepository	这个接口定义了常用的curd方法。可以自定义一些方法在该接口的实现类/子类中进行操作数据库。
+
+@Id	and	@GeneratedValue 这两个注释表明了：添加了这两个注释的字段应该被映射到数据库中的primary key列中，该字段所对应的value应该是被生成的，而不是明确的输入的。
+
+@ManyToOne和@ManyToMany 这两个注释定义了关系字段之间的关联，指的是存储在其他表中的数据。
+
+
+1.4  Scheduling	executors
+
+@EnableScheduling 这就是一个元注释，内部没有内容，它上面有个注释叫做@Import(SchedulingConfiguration.class)，导入了SchedulingConfiguration.class。
+这个@EnableScheduling不是Spring Boot的注释，而是Spring Context module的注释，就像@SpringBootApplication和@EnableAutoConfiguration一样。
+
+@Scheduled只能加在无参方法上。ScheduledAnnotationBeanPostProcessor	会有导入的配置创建，它会自动扫描有@Scheduled注释的Spring Beans。对于每一个无参方法，都会创建一个合适的executor线程池，它能够管理annotated的方法。
+
+
+
+
+Chapter	2.	Configuring	Web	Applications
+
+	- Creating	a	basic	RESTful	application 
+	- Creating	a	Spring	Data	REST	service
+	- Configuring	custom	servlet	filters
+	- Configuring	custom	interceptors
+	- Configuring	custom	HttpMessageConverters
+	- Configuring	custom	PropertyEditors
+	- Configuring	custom	type	Formatters
+
+
+
+2.1  Creating	a	basic	RESTful	application
+
+	@RestController = @Controller + @ResponseBody
+@RestController是一个元注释
+
+
+2.2  Creating	a	Spring	Data	REST	service
+
+不知道authors publishers从哪来的
+
+
+2.3  Configuring	custom	servlet	filters
+
+在真实的web应用中，需要添加一些过滤器，来过滤掉坏字符，执行认证等等。Spring Boot会自动添加 OrderedCharacterEncodingFilter	and	HiddenHttpMethodFilter,	但是我们可以添加更多。
+
+已经有了很多servlet filters，例如Spring	Boot,	Spring	Web,	Spring	MVC,	and	others,我们要做的就是在配置文件中把他们定义成beans。
+Tomcat8已经为我们提供了一个实现，RemoteIpFilter，我们需要做的就是将其添加到我们的过滤器链中。
+
+BookPubApplication.class中的@SpringBootApplication里面有一个注释叫做@ComponentScan，@ComponentScan能知识Spring Boot检测WebConfiguration.class作为@Configuration类并将其添加到上下文中，因为我们在WebConfiguration.class上加了@Configuration注释，现在我们在WebConfiguration.class声明任何东西就跟在BookPubApplication.class声明一样。
+
+2.4  Configuring	custom	interceptors
+
+HandlerInterceptor像一个Filter，它能够在不同阶段为我们提供切点。他不允许我们修改请求，但是可以通过抛出异常或者返回false来停止执行，如果拦截器逻辑明确如此。
+
+
+2.5  Configuring custom HttpMessageConverters
+例子跑起来了，还是没明白
+
+
+2.6  Configuring	custom	PropertyEditors
+例子跑起来了，还是没明白
+PropertyEditor线程不安全
+
+2.7  Configuring	custom	type	Formatters
+
+
+
+Chapter	3.	Web	Framework Behavior Tuning
+
+	- Configuring	route	matching	patterns
+	- Configuring	custom	static	path	mappings
+	- Tuning	Tomcat	via	the	EmbeddedServletContainerCustomizer
+	- Choosing	embedded	servlet	containers
+	- Adding	custom	connectors
+
+
+3.1 Configuring	route	matching	patterns
+
+	符号
+在WebConfiguration.class中加入这个方法：
+
+	@Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setUseSuffixPatternMatch(false).
+                setUseTrailingSlashMatch(true);
+    }
+
+表明我们在URL中想使用/尾随匹配，也就是http://localhost:8080/books/978-1-78528-415-1跟http://localhost:8080/books/978-1-78528-415-1/.一回事
+
+如果setUseTrailingSlashMatch(false);就不启动URL/尾随匹配，上述两个地址不一样
+
+
+3.2 Configuring	custom	static	path	mappings
+
+在org.test.bookpub.WebConfiguration.class中添加如下方法：
+
+	@Override
+	public	void	addResourceHandlers(ResourceHandlerRegistry	registry)	{
+			registry.addResourceHandler("/internal/**")
+					.addResourceLocations("classpath:/");
+	}
+这样就能通过地址 http://localhost:8080/internal/application.properties 访问该资源了。
+	addResourceHandler("/internal/**")
+	.addResourceLocations("classpath:/");   
+这两个函数是可变参数，可以添加多个路径，用 ， 隔开
+
+
+3.3  Tuning	Tomcat	via EmbeddedServletContainerCustomizer
+
+pring Boot公开了许多可用于配置事件的服务器属性例如PORT，SSL等，只需在application.properties中设置值即可。
+但是，如果我们需要做更复杂的调整，Spring Boot为我们提供了一个EmbeddedServletContainerCustomizer接口以编程方式定义我们的配置。
+
+
+在应用程序启动过程中，Spring Boot自动配置会检测到自定义程序的存在并调用customize（...）方法，将引用传递给servlet容器。
+在我们具体的情况下，我们实际上得到了一个TomcatEmbeddedServletContainerFactory实现实例;但根据使用的servlet容器种类，如Jetty或Undertow，实现将有所不同。
+
+
+3.4  Choosing embedded servlet containers
+
+
+Tomcat是Spring Boot为我们提供的一个嵌入式servlet容器，但是我们不会仅仅使用这一个容器，我们还有其他选择，比如Jetty或者Undertow，但是使用的前提是：需要在build.gradle文件中添加相应的
+starter。例如 compile("org.springframework.boot:spring-boot-starter-jetty")
+
+配置完成之后，Spring Boot会在classpath中对类进行有条件的自动扫描，并且决定哪个servlet容器将被使用。
+通过@ConditionalOnClass({	Servlet.class,	Server.class,	Loader.class})告诉Spring Boot，只有在classpath中存在org.eclipse.jetty.server.Server和
+org.eclipse.jetty.util.Loader,才会使用EmbeddedJetty配置。
+
+
+3.5  Adding	custom	connectors
+
+企业应用程序开发和部署中的另一个很常见的情况是运行应用程序，通过用两个单独的HTTP端口连接器：一个用于HTTP和另一个是HTTPS。
+
+跑起来了，需要用到前面的一个方法，就是
+@Override
+	public	void	addResourceHandlers(ResourceHandlerRegistry	registry)	{
+			registry.addResourceHandler("/internal/**")
+					.addResourceLocations("classpath:/");
+	}
+
+
+
+Chapter	4.	Writing	Custom	Spring	Boot Starters
+
+	- Understanding	Spring	Boot	autoconfiguration
+	- Creating	a	custom	Spring	Boot	autoconfiguration	starter
+	- Configuring	custom	conditional	bean	instantiations
+	- Using	custom	@Enable*	annotations	to	toggle	configurations
+
+
+4.1  Understanding	Spring	Boot autoconfiguration
+
+	positive	matches：用到的配置
+	negative	matches	：表明这些配置在classpath中存在并且Spring Boot确实扫描到它们了，但是没有通过它们所需要的条件。
+
+
+4.2  Creating	a	custom	Spring	Boot autoconfiguration	starter
+
+Spring Boot Starter在编译时不需要依赖Spring Boot libraries
+
+
+4.3  Configuring	custom	conditional	bean instantiations
+
+
+@ConditionalOnMissingBean
+
+
+
+
+4.4  Using	custom	@Enable*	annotations	to toggle	configurations
+
+Spring	Boot	is	randomly	executing	CommandLineRunners	
+
+
+
+
+Chapter 5    Application Testing
+
+	- Creating	tests	for	MVC	Controllers
+	- Automatically	configuring	database	schema	and	populating	it	with	data
+	- Creating	tests	using	in-memory	database	with	data	fixtures
+	- Creating	tests	using	Mockito	to	mock	DB
+	- Writing	tests	using	Cucumber
+	- Writing	tests	using	Spock
+
+
+5.1    Creating	tests	for	Spring	MVC  Controllers
+
+
+@RunWith 标准的JUnit单元注解
+
+过时了  @SpringApplicationConfiguration  这是一个决定如何为整合测试加载和配置Spring	Application	Context的Spring Boot的注解。
+
+@SpringBootTest : 该注解可以在一个测试类指定运行Spring Boot为基础的测试。
+
+MockMvc执行web请求的断言时比较方便
+
+
+5.2     Automatically	configuring	the	database   schema	and	populating	it	with	data
+
+
+5.3    Creating	tests	using	in-memory	database with	data	fixtures
+
+
+
+
+	
+
+
+
+
+
+	
+
