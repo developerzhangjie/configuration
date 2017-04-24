@@ -1,0 +1,7 @@
+1. Ubuntu下搜狗输入法突然无法输入中文
+
+ubuntu下搜狗的配置文件在 ~/.config下的3个文件夹里：
+SogouPY、SogouPY.users、sogou-qimpanel
+删除这3个文件夹，然后重启搜狗。
+我使用这种方法后解决了无法输入中文问题。
+
