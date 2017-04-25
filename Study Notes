@@ -1,2 +1,2 @@
 1.Spring Boot连接oracle数据库，添加驱动采用如下方法：在project目录下新建libs文件夹，将下载好的驱动jar包拷贝到该目录下，
-然后在build.gradle的dependencies中添加runtime files('libs/*.jar')，完成。
+然后在build.gradle的dependencies中添加runtime fileTree(dir: 'libs', include: '*.jar')，完成。
