@@ -36,7 +36,7 @@ sudo apt-get install libc6-i386，安装WPS之前必须安装这个包;
 sudo apt-get install lib32ncurses5 lib32z1 在16.04下安装这俩个包;
 sudo dpkg -i wps-office_10.1.0.5630~a20p1_amd64.deb 输入该命令安装成功;
 
-8.how to install nodejs 6.10.2 on ubuntu 16.04
+8.安装 nodejs 6.10.2 on ubuntu 16.04
 sudo apt-get update
 sudo apt-get install build-essential libssl-dev
 curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh -o install_nvm.sh
@@ -44,7 +44,8 @@ chmod u+x install_nvm.sh
 zsh install_nvm.sh
 source ~/.profile
 source ~/.nvm/nvm.sh
-nvm install 6.10.2
+nvm install 6.10.2 速度有点慢，10min左右
+可以将node-v6.10.2-linux-x64.tar.xz放到$NVM_DIR/.cache/bin/node-v6.10.2-linux-x64/ 
 
  //how to start JHispter
   1).  yo jhipster
@@ -62,4 +63,25 @@ nvm install 6.10.2
  sudo apt remove uget
 
 
+11.安装 Yarn 
+ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+ sudo apt-get update && sudo apt-get install yarn
+ yarn --version
+ 完成之后在.zshrc中添加： export PATH="$PATH:`yarn global bin`:$HOME/.config/yarn/global/node_modules/.bin"
+ 
+ 全局使用ng命令
+ yarn global add @angular/cli
+
+ 设置ng使用yarn
+ ng set --global packageManager=yarn
+
+ 解决下载linux-x64-48_binding.node卡住
+ export SASS_BINARY_PATH=~/download/linux-x64-48_binding.node
+ 
+ 
+12.远程mount
+ sudo apt-get update
+ sudo apt-get install nfs-common
+ sudo mount 192.168.3.11:/rootfs /mnt  
 
