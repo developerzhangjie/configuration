@@ -104,3 +104,7 @@ cd /usr/share/fonts/ms_fonts/
 sudo mkfontscale && sudo mkfontdir && sudo fc-cache -fv
 //重启
 reboot
+
+14.安装gradle
+ export GRADLE_HOME=/home/sin/software/gradle-3.5
+ export PATH=$PATH:$GRADLE_HOME/bin
