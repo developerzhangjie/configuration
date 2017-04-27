@@ -85,3 +85,22 @@ nvm install 6.10.2 速度有点慢，10min左右
  sudo apt-get install nfs-common
  sudo mount 192.168.3.11:/rootfs /mnt  
 
+13.安装consolas字体
+【字体下载】
+YaHeiConsolas.tar：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz
+
+【字体安装】
+//解压压缩包
+tar -zxvf YaHeiConsolas.tar.gz
+//在系统目录下创建自定义字体目录
+sudo mkdir -p /usr/share/fonts/ms_fonts
+//复制解压出来的字体到刚才创建的目录
+sudo cp YaHeiConsolas.ttf /usr/share/fonts/vista/
+//修改字体权限
+sudo chmod 644 /usr/share/fonts/vista/*.ttf
+//进入字体目录
+cd /usr/share/fonts/ms_fonts/
+//刷新并安装字体
+sudo mkfontscale && sudo mkfontdir && sudo fc-cache -fv
+//重启
+reboot
