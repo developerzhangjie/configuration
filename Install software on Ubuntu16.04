@@ -36,6 +36,19 @@ sudo apt-get install libc6-i386，安装WPS之前必须安装这个包;
 sudo apt-get install lib32ncurses5 lib32z1 在16.04下安装这俩个包;
 sudo dpkg -i wps-office_10.1.0.5630~a20p1_amd64.deb 输入该命令安装成功;
 
+安装完成之后打开WPS会出现缺少字体的警告，解决方法如下：
+  1). 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
+  国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+  国内下载地址：https://pan.baidu.com/s/1eS6xIzo
+  下载完成后，解压并执行：
+  sudo mv  wps_symbol_fonts  /usr/share/fonts
+  2). 执行以下命令,生成字体的索引信息：
+  sudo mkfontscale
+  sudo mkfontdir
+  3). 运行fc-cache命令更新字体缓存。
+  sudo fc-cache
+  4). 重启wps即可，字体缺失的提示不再出现。
+
 8.安装 nodejs 6.10.2 on ubuntu 16.04
 sudo apt-get update
 sudo apt-get install build-essential libssl-dev
@@ -108,3 +121,21 @@ reboot
 14.安装gradle
  export GRADLE_HOME=/home/sin/software/gradle-3.5
  export PATH=$PATH:$GRADLE_HOME/bin
+ 
+ 
+ 15.PPA源操作
+ 
+  查询
+  在Ubuntu中，每个PPA源是单独存放在/etc/apt/sources.list.d/文件夹中的，进入到该文件夹，使用ls命令查询即可列出当前系统添加的PPA源。
+
+  添加
+  sudo add-apt-repository ppa:ownername/projectname
+  sudo apt update
+  sudo apt install something
+  注意，添加了PPA源时，记得update一下，不然在install的时候会出现找不到安装包的情况。
+  
+  修改
+  用文本编辑器修改/etc/apt/sources.list.d/文件夹下的文件内容即可。
+
+  删除
+  使用sudo rm命令删除/etc/apt/sources.listd/文件夹中指定的PPA源文件即可
