@@ -5,3 +5,5 @@ SogouPY、SogouPY.users、sogou-qimpanel
 删除这3个文件夹，然后重启搜狗。
 我使用这种方法后解决了无法输入中文问题。
 
+
+2.Ubuntu装Virtual Box用windows选择桥接网络无法上网，改成网络地址转换（NAT）就好了。
