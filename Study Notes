@@ -1,2 +1,12 @@
 1.Spring Boot连接oracle数据库，添加驱动采用如下方法：在project目录下新建libs文件夹，将下载好的驱动jar包拷贝到该目录下，
-然后在build.gradle的dependencies中添加runtime fileTree(dir: 'libs', include: '*.jar')，完成。
+（驱动名称 odbc6-12.1.0.2.jar)在build.gradle的dependencies中添加runtime fileTree(dir: 'libs', include: '*.jar')，完成。
+
+
+2.将Angular程序打包放到web服务器，通过服务器直接访问
+  1）打包 ：yarn build --pro   / yarn build 生成dist文件夹，里面包含js文件
+    (以上两个命令的区别是 --pro压缩更彻底)
+  2）服务器程序src/resource下新建文件夹 static,目录结构为 src/resource/static，然后将dist文件夹中的所有文件复制到该目录下
+  3）在application.properties中做如下配置：
+      spring.resources.chain.strategy.content.enabled=true
+      spring.resources.chain.strategy.content.paths=/**
+  4）在terminal中运行 gradle bootRun,在浏览器中输入 http://localhost:8080/ 便可访问
