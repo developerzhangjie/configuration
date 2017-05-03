@@ -139,3 +139,7 @@ reboot
 
   删除
   使用sudo rm命令删除/etc/apt/sources.listd/文件夹中指定的PPA源文件即可
+
+16. How To Install MySQL on Ubuntu 16.04
+   sudo apt-get update
+   sudo apt-get install mysql-server
