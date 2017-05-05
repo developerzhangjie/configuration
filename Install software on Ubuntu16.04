@@ -89,8 +89,17 @@ nvm install 6.10.2 速度有点慢，10min左右
  设置ng使用yarn
  ng set --global packageManager=yarn
 
+会遇到的问题
+  解决下载linux-x64-48_binding.node卡住download node-sass 执行库 
+  在 .zshrc 中加入 export SASS_BINARY_PATH=~/download/linux-x64-48_binding.node
+
+  对 phantomjs 处理可以同上，也可以如下处理
+  cd /usr/local/share/
+  sudo wget https://cnpmjs.org/mirrors/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
+  sudo ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/ /usr/local/share/phantomjs
+  sudo ln -s /usr/local/share/phantomjs/bin/phantomjs /usr/local/bin/phantomjs
  解决下载linux-x64-48_binding.node卡住
- export SASS_BINARY_PATH=~/download/linux-x64-48_binding.node
+  export SASS_BINARY_PATH=~/download/linux-x64-48_binding.node
  
  
 12.远程mount
